@@ -1,6 +1,6 @@
 This is an animation of Pythagorean theorem that you would see on the wikipedia site for pythagorean theorem.
 http://en.wikipedia.org/wiki/Pythagorean_theorem#mediaviewer/File:Pythagoras-2a.gif
-This animation is implemented in haskell using the Data.Active library. This animation is smoother than the one on the wikipedia
+This animation is implemented in haskell using the Data.Active library. This animation is smoother than the one on wikipedia
 
 To run:
 
