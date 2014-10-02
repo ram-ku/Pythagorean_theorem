@@ -8,19 +8,25 @@ import Data.Active
 import Data.Semigroup
 import Control.Monad
 
+-- makes Canvas an instance of semigroup 
 instance Semigroup (Canvas ()) where
 	(<>) = mappend
 
+-- makes Canvas an instance of Monoid
 instance Monoid a => Monoid (Canvas a) where 
 	mempty = return mempty
 	mappend = liftM2 mappend
 
+-- combines many Actives into one.This elongates the length of the animation
 join_actives :: [Active (Canvas ())] -> Active (Canvas ())
 join_actives xs = foldl1 (->>) xs
-					
+
+--Converts from time to float					
 fromTimeF::Time -> Float
 fromTimeF=fromTime
 
+
+--here we make different parts of the animation. Each acts differently based on time which will later be comibined into to one Big active
 newActive1=mkActive (toTime 0) (toTime 10) (\x -> if (fromTimeF x) < 10 
 													then triangle ((fromTimeF x)*20+400) (400-(fromTimeF x)*20) "down" "Yellow" "Black"
 													else if ((fromTimeF x) > 10 && (fromTimeF x) < 38 ) 
@@ -61,6 +67,7 @@ newActiveSquares=mkActive (toTime 0) (toTime 3) (\x -> if (fromTimeF x) >= 0
 newActivefinalLabel=mkActive (toTime 0) (toTime 2) (\x ->if ((fromTimeF x) >= 0 ) then renderFinalLabel else return())
 
 
+-- main function which starts the animation
 main :: IO ()
 main = blankCanvas 3000 $ \ context -> play context $ simulate (toRational 30) $ join_actives [newActive1,newActive2,newActive3,newActive4,newActive4a,newActiveHead,newActiveLabel,newActiveLeftSlide,newActiveRightSlide,newActiveSquares,newActivefinalLabel]
 
